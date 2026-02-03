@@ -19,7 +19,12 @@ namespace Lezione2.PcPartPicker.Data
             } 
         }
         public CPUCooler? CPUCooler { get; private set; }
-        public Motherboard? Motherboard { get; private set; }
+        public Motherboard? Motherboard { get; set
+            {
+                if (IsCompatible(value))
+                    field = value;
+            }
+        }
         public RAM? RAM { get; private set; }
         public Case? Case { get; private set; }
 
@@ -27,6 +32,12 @@ namespace Lezione2.PcPartPicker.Data
         {
             return cpu == null || (CPUCooler == null || cpu?.Chipset == CPUCooler?.ChipsetCompatibility)
                 && (Motherboard == null || cpu?.Chipset == Motherboard?.ChipsetCompatibility);
+        }
+
+        public bool IsCompatible(Motherboard? mb)
+        {
+            return mb == null || (CPUCooler == null || mb?.ChipsetCompatibility == CPUCooler?.ChipsetCompatibility)
+                && (CPU == null || CPU?.Chipset == mb?.ChipsetCompatibility);
         }
     }
 }
